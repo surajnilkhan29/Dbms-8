@@ -1,0 +1,101 @@
+SQL> create table library(book_id int, title varchar(20), author varchar(20));
+
+Table created.
+
+SQL> create table library_audit as select * from library;
+
+Table created.
+
+SQL> insert into library (book_id, title, author) values (101,'DBMS','Suraj');
+
+1 row created.
+
+SQL> insert into library (book_id, title, author) values (102,'CNS','Yash');
+
+1 row created.
+
+SQL> insert into library (book_id, title, author) values (103,'OOP','Rahul');
+
+1 row created.
+
+SQL> insert into library (book_id, title, author) values (104,'CGR','Omkar');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> @C:\Users\Harshad\Desktop\trigger2\update.sql
+Trigger created.
+
+SQL> select * from library;
+
+   BOOK_ID TITLE                AUTHOR
+---------- -------------------- --------------------
+       101 DBMS                 Suraj
+       102 CNS                  Yash
+       103 OOP                  Rahul
+       104 CGR                  Omkar
+
+SQL> update library set book_id = 105 where title = 'CGR';
+
+1 row updated.
+
+SQL> select * from library;
+
+   BOOK_ID TITLE                AUTHOR
+---------- -------------------- --------------------
+       101 DBMS                 Suraj
+       102 CNS                  Yash
+       103 OOP                  Rahul
+       105 CGR                  Omkar
+
+SQL> select * from library_audit;
+
+   BOOK_ID TITLE                AUTHOR
+---------- -------------------- --------------------
+       104 CGR                  Omkar
+
+SQL> delete from library where book_id = 102;
+
+1 row deleted.
+
+SQL> select * from library_audit;
+
+   BOOK_ID TITLE                AUTHOR
+---------- -------------------- --------------------
+       104 CGR                  Omkar
+       102 CNS                  Yash
+
+SQL> commit;
+
+Commit complete.
+
+SQL> create table insertbackup as select * from library;
+
+Table created.
+
+SQL> @C:\Users\Harshad\Desktop\trigger2\after_insert.sql
+Trigger created.
+
+SQL> select * from insertbackup;
+
+   BOOK_ID TITLE                AUTHOR
+---------- -------------------- --------------------
+       101 DBMS                 Suraj
+       103 OOP                  Rahul
+       105 CGR                  Omkar
+
+SQL> insert into library values(106,'DSA','Pratham');
+
+1 row created.
+
+SQL> select * from library;
+
+   BOOK_ID TITLE                AUTHOR
+---------- -------------------- --------------------
+       101 DBMS                 Suraj
+       103 OOP                  Rahul
+       105 CGR                  Omkar
+       106 DSA                  Pratham
